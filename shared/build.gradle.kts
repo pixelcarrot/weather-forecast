@@ -24,11 +24,13 @@ kotlin {
     sourceSets {
         val serializationVersion = "1.2.2"
         val coroutinesVersion = "1.5.1-native-mt"
+        val ktorVersion = "1.6.2"
 
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
             }
         }
         val commonTest by getting {
@@ -37,9 +39,17 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-android:$ktorVersion")
+            }
+        }
         val androidTest by getting
-        val iosMain by getting
+        val iosMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-ios:$ktorVersion")
+            }
+        }
         val iosTest by getting
     }
 }
