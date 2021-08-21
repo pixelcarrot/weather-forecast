@@ -11,6 +11,7 @@
 		7555FF83242A565900829871 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* HomeView.swift */; };
 		CB0EC64626CF8CF0002BE86A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0EC64526CF8CF0002BE86A /* HomeViewModel.swift */; };
 		CB0EC64926CFAFE3002BE86A /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0EC64826CFAFE3002BE86A /* WeatherView.swift */; };
+		CBBCBCAF26D146C800F47B89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBBCBCAE26D146C800F47B89 /* Assets.xcassets */; };
 		CBE1ADDC26CEC456009AA8E1 /* OpenWeather.json in Resources */ = {isa = PBXBuildFile; fileRef = CBE1ADDB26CEC456009AA8E1 /* OpenWeather.json */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB0EC64526CF8CF0002BE86A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		CB0EC64826CFAFE3002BE86A /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
+		CBBCBCAE26D146C800F47B89 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CBE1ADDB26CEC456009AA8E1 /* OpenWeather.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OpenWeather.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -73,6 +75,7 @@
 				CBE1ADDA26CEC430009AA8E1 /* Mock */,
 				CBB7C43826D00330008184B4 /* Home */,
 				CBB7C43926D0034C008184B4 /* View */,
+				CBBCBCAE26D146C800F47B89 /* Assets.xcassets */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -169,6 +172,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBBCBCAF26D146C800F47B89 /* Assets.xcassets in Resources */,
 				CBE1ADDC26CEC456009AA8E1 /* OpenWeather.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
