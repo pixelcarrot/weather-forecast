@@ -4,41 +4,99 @@ import shared
 
 class HomeViewModel: ObservableObject {
     
-    @Published var weather: Weather = Weather.Factory().createWeather()
-    @Published var background: String = ""
+    @Published var state: HomeState = .idle
     
-    private let module = Module()
-    private var disposables = Set<AnyCancellable>()
+    fileprivate let locationManager = LocationManager()
+    fileprivate let module = Module()
+    fileprivate var disposables = Set<AnyCancellable>()
     
-    private let getCurrentWeatherUseCase: GetCurrentWeatherUseCase
-    private let getImageUseCase: GetImageUseCase
+    fileprivate let getCurrentWeatherUseCase: GetCurrentWeatherUseCase
+    fileprivate let getImageUseCase: GetImageUseCase
     
     init() {
         getCurrentWeatherUseCase = module.getCurrentWeatherUseCase
         getImageUseCase = module.getImageUseCase
     }
     
-    func checkWeather() {
-        getWeatherByLocation(lat: 10.7956098, lon: 106.6356215)
-            .flatMap{ result in
-                self.getImageByKeyword(keyword: result.condition)
+    func dispatch(event: HomeEvent) {
+        switch event {
+        case .load:
+            checkLocation()
+            break
+        case .noLocation:
+            requestLocation()
+            break
+        case .receiveLocation(let lat, let lon):
+            checkWeather(lat: lat, lon: lon)
+            break
+        case .noPermission:
+            state = .failed(NSError())
+            break
+        }
+    }
+    
+    fileprivate func requestLocation() {
+        locationManager.$lastLocation
+            .first(where: { location in
+                location != nil
+            })
+            .receive(on: DispatchQueue.main)
+            .sink { location in
+                guard let coordinate = location?.coordinate else {
+                    return
+                }
+                self.dispatch(event: .receiveLocation(lat: coordinate.latitude, lon: coordinate.longitude))
+            }
+            .store(in: &disposables)
+    }
+    
+    fileprivate func checkLocation() {
+        locationManager.$locationStatus
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { status in
+                switch status {
+                case .notDetermined:
+                    // no need: iOS already prompt alert permission
+                    break
+                case .authorizedAlways, .authorizedWhenInUse:
+                    guard let coordinate = self.locationManager.lastLocation?.coordinate else {
+                        self.dispatch(event: .noLocation)
+                        return
+                    }
+                    self.dispatch(event: .receiveLocation(lat: coordinate.latitude, lon: coordinate.longitude))
+                    break
+                case .restricted, .denied:
+                    self.dispatch(event: .noPermission)
+                    break
+                default:
+                    self.state = .failed(NSError())
+                    break
+                }
+            })
+            .store(in: &disposables)
+    }
+    
+    fileprivate func checkWeather(lat: Double, lon: Double) {
+        state = .loading
+        getWeatherByLocation(lat: lat, lon: lon)
+            .flatMap{ weather in
+                self.getImageByKeyword(keyword: weather.condition)
                     .map { imageUrl in
-                        (result, imageUrl)
+                        (weather, imageUrl)
                     }
             }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: {
                 debugPrint("fetch \($0)")
-            }, receiveValue: { [weak self] result, imageUrl in
-                self?.weather = result
-                self?.background = imageUrl
+            }, receiveValue: { [weak self] weather, imageUrl in
+                self?.state = .loaded(weather: weather, background: imageUrl)
             })
             .store(in: &disposables)
     }
     
-    private func getWeatherByLocation(lat: Double, lon: Double) -> Future<Weather, Error> {
+    fileprivate func getWeatherByLocation(lat: Double, lon: Double) -> Future<Weather, Error> {
         return Future<Weather, Error>() { [weak self] promise in
-            self?.getCurrentWeatherUseCase.execute(lat: 10.7956098, lon: 106.6356215) { result, error in
+            self?.getCurrentWeatherUseCase.execute(lat: lat, lon: lon) { result, error in
                 if let error = error {
                     promise(.failure(error))
                 } else {
@@ -48,7 +106,7 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    private func getImageByKeyword(keyword: String) -> Future<String, Never> {
+    fileprivate func getImageByKeyword(keyword: String) -> Future<String, Never> {
         return Future<String, Never>() { [weak self] promise in
             self?.getImageUseCase.execute(query: keyword, completionHandler: { result, error in
                 if let _ = error {
