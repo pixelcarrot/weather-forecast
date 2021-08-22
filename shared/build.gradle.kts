@@ -25,12 +25,15 @@ kotlin {
         val serializationVersion = "1.2.2"
         val coroutinesVersion = "1.5.1-native-mt"
         val ktorVersion = "1.6.2"
+        val logbackVersion = "1.2.5"
 
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-logging:$ktorVersion")
+                implementation("ch.qos.logback:logback-classic:$logbackVersion")
             }
         }
         val commonTest by getting {

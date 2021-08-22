@@ -2,12 +2,18 @@ package com.pixelcarrot.weatherforecast.di
 
 import com.pixelcarrot.weatherforecast.Constant
 import com.pixelcarrot.weatherforecast.platform.Platform
+import com.pixelcarrot.weatherforecast.repository.UnsplashRepository
 import com.pixelcarrot.weatherforecast.repository.WeatherRepository
-import com.pixelcarrot.weatherforecast.service.MockWeatherService
-import com.pixelcarrot.weatherforecast.service.OpenWeatherMapService
-import com.pixelcarrot.weatherforecast.service.WeatherService
+import com.pixelcarrot.weatherforecast.service.unsplash.UnsplashService
+import com.pixelcarrot.weatherforecast.service.unsplash.UnsplashServiceImpl
+import com.pixelcarrot.weatherforecast.service.unsplash.UnsplashServiceMock
+import com.pixelcarrot.weatherforecast.service.weather.WeatherMapServiceImpl
+import com.pixelcarrot.weatherforecast.service.weather.WeatherService
+import com.pixelcarrot.weatherforecast.service.weather.WeatherServiceMock
 import com.pixelcarrot.weatherforecast.usecase.GetCurrentWeatherUseCase
+import com.pixelcarrot.weatherforecast.usecase.GetImageUseCase
 import io.ktor.client.*
+import io.ktor.client.features.logging.*
 
 class Module {
 
@@ -16,23 +22,48 @@ class Module {
     }
 
     val client: HttpClient by lazy {
-        HttpClient()
+        HttpClient {
+            install(Logging) {
+                logger = Logger.DEFAULT
+                level = LogLevel.HEADERS
+            }
+        }
     }
 
     val service: WeatherService by lazy {
         if (Constant.IS_MOCK_ENABLED) {
-            MockWeatherService(platform)
+            WeatherServiceMock(platform)
         } else {
-            OpenWeatherMapService(client)
+            WeatherMapServiceImpl(client)
         }
     }
 
-    val repository: WeatherRepository by lazy {
+    val unsplash: UnsplashService by lazy {
+        if (Constant.IS_MOCK_ENABLED) {
+            UnsplashServiceMock(platform)
+        } else {
+            UnsplashServiceImpl(client)
+        }
+    }
+
+    val weatherRepository: WeatherRepository by lazy {
         WeatherRepository(service)
     }
 
+    val unsplashRepository: UnsplashRepository by lazy {
+        UnsplashRepository(unsplash)
+    }
+
     val getCurrentWeatherUseCase: GetCurrentWeatherUseCase by lazy {
-        GetCurrentWeatherUseCase(repository)
+        GetCurrentWeatherUseCase(
+            weatherRepository,
+        )
+    }
+
+    val getImageUseCase: GetImageUseCase by lazy {
+        GetImageUseCase(
+            unsplashRepository,
+        )
     }
 
 }

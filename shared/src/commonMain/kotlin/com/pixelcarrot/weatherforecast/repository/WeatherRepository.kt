@@ -1,8 +1,8 @@
 package com.pixelcarrot.weatherforecast.repository
 
 import com.pixelcarrot.weatherforecast.model.Weather
-import com.pixelcarrot.weatherforecast.service.WeatherService
-import com.pixelcarrot.weatherforecast.service.response.OpenWeatherResponse
+import com.pixelcarrot.weatherforecast.service.weather.WeatherService
+import com.pixelcarrot.weatherforecast.service.weather.response.OpenWeatherResponse
 
 class WeatherRepository(
     private val service: WeatherService,

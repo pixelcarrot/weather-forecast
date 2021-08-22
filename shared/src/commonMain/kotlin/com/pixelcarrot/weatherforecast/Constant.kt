@@ -9,4 +9,8 @@ internal object Constant {
         TODO("Please register an API KEY at https://home.openweathermap.org/users/sign_up")
     }
 
+    val UNSPLASH_CLIENT_ID: String by lazy {
+        TODO("Please register an API KEY at https://unsplash.com/documentation#creating-a-developer-account")
+    }
+
 }

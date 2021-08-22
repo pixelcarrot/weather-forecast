@@ -1,7 +1,7 @@
-package com.pixelcarrot.weatherforecast.service
+package com.pixelcarrot.weatherforecast.service.weather
 
 import com.pixelcarrot.weatherforecast.Constant
-import com.pixelcarrot.weatherforecast.service.response.OpenWeatherResponse
+import com.pixelcarrot.weatherforecast.service.weather.response.OpenWeatherResponse
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.Dispatchers
@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-class OpenWeatherMapService(private val client: HttpClient) : WeatherService {
+internal class WeatherMapServiceImpl(private val client: HttpClient) : WeatherService {
 
     override suspend fun getWeather(lat: Double, lon: Double): OpenWeatherResponse {
         return withContext(Dispatchers.Default) {

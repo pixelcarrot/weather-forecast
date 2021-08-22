@@ -1,13 +1,13 @@
-package com.pixelcarrot.weatherforecast.service
+package com.pixelcarrot.weatherforecast.service.weather
 
 import com.pixelcarrot.weatherforecast.platform.Platform
-import com.pixelcarrot.weatherforecast.service.response.OpenWeatherResponse
+import com.pixelcarrot.weatherforecast.service.weather.response.OpenWeatherResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-internal class MockWeatherService(
+internal class WeatherServiceMock(
     private val platform: Platform,
 ) : WeatherService {
 
