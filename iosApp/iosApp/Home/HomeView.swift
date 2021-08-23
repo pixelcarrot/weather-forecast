@@ -7,18 +7,36 @@ struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     
     var body: some View {
-        switch viewModel.state {
-        case .idle:
-            MessageView(message: "Idle")
-                .onAppear(perform: {
-                    viewModel.dispatch(event: .load)
-                })
-        case .loading:
-            MessageView(message: "Loading")
-        case .loaded(let weather, let background):
-            WeatherView(weather: weather, background: background)
-        case .failed:
-            MessageView(message: "Failed")
+        ZStack {
+            switch viewModel.state {
+            case .idle:
+                ProgressView()
+                    .onAppear(perform: {
+                        debugPrint("onAppear")
+                        viewModel.dispatch(action: .load)
+                    })
+            case .loading:
+                ProgressView()
+            case .loaded(let weather, let background):
+                WeatherView(weather: weather, background: background)
+            case .failed:
+                VStack {
+                    Text("Sorry, Unfortunately, an error occurred. Please try again later.")
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    Button(action: {
+                        viewModel.dispatch(action: .load)
+                    }, label: {
+                        Image(systemName: "arrow.clockwise.circle")
+                            .resizable()
+                            .frame(width: 32.0, height: 32.0)
+                    })
+                }
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            debugPrint("willEnterForegroundNotification")
+            viewModel.dispatch(action: .load)
         }
     }
     

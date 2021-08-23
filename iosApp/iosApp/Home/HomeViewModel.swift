@@ -18,8 +18,8 @@ class HomeViewModel: ObservableObject {
         getImageUseCase = module.getImageUseCase
     }
     
-    func dispatch(event: HomeEvent) {
-        switch event {
+    func dispatch(action: HomeAction) {
+        switch action {
         case .load:
             checkLocation()
             break
@@ -45,7 +45,7 @@ class HomeViewModel: ObservableObject {
                 guard let coordinate = location?.coordinate else {
                     return
                 }
-                self.dispatch(event: .receiveLocation(lat: coordinate.latitude, lon: coordinate.longitude))
+                self.dispatch(action: .receiveLocation(lat: coordinate.latitude, lon: coordinate.longitude))
             }
             .store(in: &disposables)
     }
@@ -60,13 +60,13 @@ class HomeViewModel: ObservableObject {
                     break
                 case .authorizedAlways, .authorizedWhenInUse:
                     guard let coordinate = self.locationManager.lastLocation?.coordinate else {
-                        self.dispatch(event: .noLocation)
+                        self.dispatch(action: .noLocation)
                         return
                     }
-                    self.dispatch(event: .receiveLocation(lat: coordinate.latitude, lon: coordinate.longitude))
+                    self.dispatch(action: .receiveLocation(lat: coordinate.latitude, lon: coordinate.longitude))
                     break
                 case .restricted, .denied:
-                    self.dispatch(event: .noPermission)
+                    self.dispatch(action: .noPermission)
                     break
                 default:
                     self.state = .failed(NSError())
@@ -80,7 +80,7 @@ class HomeViewModel: ObservableObject {
         state = .loading
         getWeatherByLocation(lat: lat, lon: lon)
             .flatMap{ weather in
-                self.getImageByKeyword(keyword: weather.condition)
+                self.getImageByKeyword(keyword: "\(weather.condition) weather")
                     .map { imageUrl in
                         (weather, imageUrl)
                     }
