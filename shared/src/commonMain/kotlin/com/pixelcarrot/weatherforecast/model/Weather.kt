@@ -9,6 +9,6 @@ data class Weather(
     val icon: String = "",
 ) {
     companion object Factory {
-        fun createWeather() = Weather() // Swift does not support Kotlin Default Argument
+        fun default() = Weather() // Swift does not support Kotlin Default Argument
     }
 }

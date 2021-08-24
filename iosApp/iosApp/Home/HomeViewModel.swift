@@ -81,15 +81,15 @@ class HomeViewModel: ObservableObject {
         getWeatherByLocation(lat: lat, lon: lon)
             .flatMap{ weather in
                 self.getImageByKeyword(keyword: "\(weather.condition) weather")
-                    .map { imageUrl in
-                        (weather, imageUrl)
+                    .map { image in
+                        (weather, image)
                     }
             }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: {
                 debugPrint("fetch \($0)")
-            }, receiveValue: { [weak self] weather, imageUrl in
-                self?.state = .loaded(weather: weather, background: imageUrl)
+            }, receiveValue: { [weak self] weather, image in
+                self?.state = .loaded(weather: weather, image: image)
             })
             .store(in: &disposables)
     }
@@ -100,20 +100,16 @@ class HomeViewModel: ObservableObject {
                 if let error = error {
                     promise(.failure(error))
                 } else {
-                    promise(.success(result ?? Weather.Factory().createWeather()))
+                    promise(.success(result ?? Weather.Factory().default()))
                 }
             }
         }
     }
     
-    fileprivate func getImageByKeyword(keyword: String) -> Future<String, Never> {
-        return Future<String, Never>() { [weak self] promise in
+    fileprivate func getImageByKeyword(keyword: String) -> Future<WeatherImage, Never> {
+        return Future<WeatherImage, Never>() { [weak self] promise in
             self?.getImageUseCase.execute(query: keyword, completionHandler: { result, error in
-                if let _ = error {
-                    promise(.success(""))
-                } else {
-                    promise(.success(result ?? ""))
-                }
+                promise(.success(result ?? WeatherImage.Factory().default()))
             })
         }
     }

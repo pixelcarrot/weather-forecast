@@ -17,8 +17,8 @@ struct HomeView: View {
                     })
             case .loading:
                 ProgressView()
-            case .loaded(let weather, let background):
-                WeatherView(weather: weather, background: background)
+            case .loaded(let weather, let image):
+                WeatherView(weather: weather, image: image)
             case .failed:
                 VStack {
                     Text("Sorry, Unfortunately, an error occurred. Please try again later.")
@@ -50,7 +50,7 @@ struct HomeView_Previews: PreviewProvider {
         Group {
             HomeView(viewModel: viewModel)
                 .onAppear(perform: {
-                    viewModel.state = .loaded(weather: Weather(city: "City", country: "Country", temperature: 30.0, feelsLike: 28.0, condition: "Broken Clouds", icon: ""), background: background)
+                    viewModel.state = .loaded(weather: Weather(city: "City", country: "Country", temperature: 30.0, feelsLike: 28.0, condition: "Broken Clouds", icon: ""), image: WeatherImage(imageUrl: background, author: "Justin Nguyen", authorUrl: "https://pixelcarrot.com/"))
                 })
         }
     }

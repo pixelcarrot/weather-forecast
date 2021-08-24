@@ -4,10 +4,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UnsplashResponse(
-    @SerialName("urls")
-    val urls: UrlResponse = UrlResponse(),
+data class UserResponse(
+    @SerialName("name")
+    val name: String = "",
 
-    @SerialName("user")
-    val user: UserResponse = UserResponse(),
+    @SerialName("links")
+    val links: LinkResponse = LinkResponse(),
 )

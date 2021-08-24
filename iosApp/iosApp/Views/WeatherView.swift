@@ -5,12 +5,12 @@ import shared
 struct WeatherView: View {
     
     let weather: Weather
-    let background: String
+    let image: WeatherImage
     
     var body: some View {
         ZStack {
-            if let url = URL(string: background) {
-                URLImage(url) { _ in 
+            if let url = URL(string: image.imageUrl) {
+                URLImage(url) { _ in
                     EmptyView()
                 } content: { image in
                     image
@@ -44,6 +44,32 @@ struct WeatherView: View {
                         .font(.system(size: 16, weight: .light, design: .default))
                         .foregroundColor(.white)
                         .padding()
+                    
+                    Spacer()
+                    
+                    HStack(alignment: .center, spacing: 0) {
+                        Text("Photo by ")
+                            .font(.system(size: 12, weight: .light, design: .default))
+                            .foregroundColor(.white)
+                        
+                        Link(destination: URL(string: image.authorUrl)!, label: {
+                            Text(image.author)
+                                .font(.system(size: 12, weight: .light, design: .default))
+                                .foregroundColor(.white)
+                                .underline()
+                        })
+                        
+                        Text(" on ")
+                            .font(.system(size: 12, weight: .light, design: .default))
+                            .foregroundColor(.white)
+                        
+                        Link(destination: URL(string: "https://unsplash.com")!, label: {
+                            Text("Unsplash")
+                                .font(.system(size: 12, weight: .light, design: .default))
+                                .foregroundColor(.white)
+                                .underline()
+                        })
+                    }
                 }
             }
         }
@@ -55,7 +81,7 @@ struct WeatherView_Previews: PreviewProvider {
         ZStack {
             Color.black
                 .ignoresSafeArea()
-            WeatherView(weather: Weather(city: "Ho Chi Minh City", country: "VN", temperature: 30.0, feelsLike: 28.0, condition: "Broken Clouds", icon: ""), background: "")
+            WeatherView(weather: Weather(city: "Ho Chi Minh City", country: "VN", temperature: 30.0, feelsLike: 28.0, condition: "Broken Clouds", icon: ""), image: WeatherImage(imageUrl: "", author: "Justin Nguyen", authorUrl: "https://pixelcarrot.com/"))
         }
     }
 }
