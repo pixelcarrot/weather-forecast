@@ -1,7 +1,7 @@
 package com.pixelcarrot.weatherforecast.service.weather
 
 import com.pixelcarrot.weatherforecast.platform.Platform
-import com.pixelcarrot.weatherforecast.service.weather.response.OpenWeatherResponse
+import com.pixelcarrot.weatherforecast.service.weather.response.OneCallResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -12,7 +12,7 @@ internal class WeatherServiceMock(
     private val platform: Platform,
 ) : WeatherService {
 
-    override suspend fun getWeather(lat: Double, lon: Double): OpenWeatherResponse {
+    override suspend fun getWeather(lat: Double, lon: Double): OneCallResponse {
         return withContext(Dispatchers.Default) {
             delay(2000)
             json.decodeFromString(response)

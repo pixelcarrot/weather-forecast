@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class WeatherResponse(
     @SerialName("id")
-    val id: Long = 0L,
+    val id: Int = 0,
 
     @SerialName("main")
     val main: String = "",
