@@ -11,7 +11,6 @@ fun OpenWeatherResponse.toWeatherModel() = Weather(
     temperature = main.temp,
     feelsLike = main.feelsLike,
     condition = weather.firstOrNull()?.description.orEmpty(),
-    icon = weather.firstOrNull()?.icon.orEmpty(),
 )
 
 fun UnsplashResponse.toWeatherImageModel() = WeatherImage(

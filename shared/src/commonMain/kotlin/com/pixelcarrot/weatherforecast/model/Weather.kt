@@ -6,7 +6,6 @@ data class Weather(
     val temperature: Double = 0.0,
     val feelsLike: Double = 0.0,
     val condition: String = "",
-    val icon: String = "",
 ) {
     companion object Factory {
         fun default() = Weather() // Swift does not support Kotlin Default Argument

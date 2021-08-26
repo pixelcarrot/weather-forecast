@@ -20,7 +20,6 @@ class Mock {
                     id = 804,
                     main = "Clouds",
                     description = "overcast clouds",
-                    icon = "04d"
                 )
             ),
             name = "Ho Chi Minh City",

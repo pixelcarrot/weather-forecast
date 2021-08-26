@@ -13,7 +13,4 @@ data class WeatherResponse(
 
     @SerialName("description")
     val description: String = "",
-
-    @SerialName("icon")
-    val icon: String = "",
 )

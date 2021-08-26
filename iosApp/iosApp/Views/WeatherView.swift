@@ -81,7 +81,20 @@ struct WeatherView_Previews: PreviewProvider {
         ZStack {
             Color.black
                 .ignoresSafeArea()
-            WeatherView(weather: Weather(city: "Ho Chi Minh City", country: "VN", temperature: 30.0, feelsLike: 28.0, condition: "Broken Clouds", icon: ""), image: WeatherImage(imageUrl: "", author: "Justin Nguyen", authorUrl: "https://pixelcarrot.com/"))
+            WeatherView(
+                weather: Weather(
+                    city: "Ho Chi Minh City",
+                    country: "VN",
+                    temperature: 30.0,
+                    feelsLike: 28.0,
+                    condition: "Broken Clouds"
+                ),
+                image: WeatherImage(
+                    imageUrl: "",
+                    author: "Justin Nguyen",
+                    authorUrl: "https://pixelcarrot.com/"
+                )
+            )
         }
     }
 }

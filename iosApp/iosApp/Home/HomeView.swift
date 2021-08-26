@@ -50,7 +50,20 @@ struct HomeView_Previews: PreviewProvider {
         Group {
             HomeView(viewModel: viewModel)
                 .onAppear(perform: {
-                    viewModel.state = .loaded(weather: Weather(city: "City", country: "Country", temperature: 30.0, feelsLike: 28.0, condition: "Broken Clouds", icon: ""), image: WeatherImage(imageUrl: background, author: "Justin Nguyen", authorUrl: "https://unsplash.com/@pixelcarrot"))
+                    viewModel.state = .loaded(
+                        weather: Weather(
+                            city: "City",
+                            country: "Country",
+                            temperature: 30.0,
+                            feelsLike: 28.0,
+                            condition: "Broken Clouds"
+                        ),
+                        image: WeatherImage(
+                            imageUrl: background,
+                            author: "Justin Nguyen",
+                            authorUrl: "https://unsplash.com/@pixelcarrot"
+                        )
+                    )
                 })
         }
     }
