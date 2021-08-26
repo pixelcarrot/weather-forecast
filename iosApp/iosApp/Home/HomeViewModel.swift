@@ -7,7 +7,8 @@ class HomeViewModel: ObservableObject {
     @Published var state: HomeState = .idle
     
     fileprivate let locationManager = LocationManager()
-    fileprivate let module = Module()
+    
+    fileprivate let module = AppModule(context: AppContext())
     fileprivate var disposables = Set<AnyCancellable>()
     
     fileprivate let getCurrentWeatherUseCase: GetCurrentWeatherUseCase

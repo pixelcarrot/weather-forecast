@@ -1,7 +1,8 @@
 package com.pixelcarrot.weatherforecast.di
 
 import com.pixelcarrot.weatherforecast.Constant
-import com.pixelcarrot.weatherforecast.platform.Platform
+import com.pixelcarrot.weatherforecast.AppContext
+import com.pixelcarrot.weatherforecast.asset.AssetManager
 import com.pixelcarrot.weatherforecast.repository.UnsplashRepository
 import com.pixelcarrot.weatherforecast.repository.WeatherRepository
 import com.pixelcarrot.weatherforecast.service.unsplash.UnsplashService
@@ -15,11 +16,9 @@ import com.pixelcarrot.weatherforecast.usecase.GetImageUseCase
 import io.ktor.client.*
 import io.ktor.client.features.logging.*
 
-class Module {
+class AppModule(context: AppContext) {
 
-    val platform: Platform by lazy {
-        Platform()
-    }
+    val assetManager: AssetManager = context.createAssetManager()
 
     val client: HttpClient by lazy {
         HttpClient {
@@ -32,7 +31,7 @@ class Module {
 
     val service: WeatherService by lazy {
         if (Constant.IS_MOCK_ENABLED) {
-            WeatherServiceMock(platform)
+            WeatherServiceMock(assetManager)
         } else {
             WeatherMapServiceImpl(client)
         }
@@ -40,7 +39,7 @@ class Module {
 
     val unsplash: UnsplashService by lazy {
         if (Constant.IS_MOCK_ENABLED) {
-            UnsplashServiceMock(platform)
+            UnsplashServiceMock(assetManager)
         } else {
             UnsplashServiceImpl(client)
         }

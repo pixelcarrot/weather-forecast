@@ -1,8 +1,8 @@
-package com.pixelcarrot.weatherforecast.platform
+package com.pixelcarrot.weatherforecast.asset
 
 import platform.Foundation.*
 
-actual class Platform actual constructor() {
+actual class AssetManager {
     actual fun loadAsset(name: String): String {
         val nsUrl = NSBundle.mainBundle.URLForResource(name, "")
         val nsData = nsUrl?.let { NSData.create(it) }

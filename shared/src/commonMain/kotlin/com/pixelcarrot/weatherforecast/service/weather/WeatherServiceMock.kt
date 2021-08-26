@@ -1,6 +1,6 @@
 package com.pixelcarrot.weatherforecast.service.weather
 
-import com.pixelcarrot.weatherforecast.platform.Platform
+import com.pixelcarrot.weatherforecast.asset.AssetManager
 import com.pixelcarrot.weatherforecast.service.weather.response.OpenWeatherResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -9,7 +9,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 internal class WeatherServiceMock(
-    private val platform: Platform,
+    private val assetManager: AssetManager,
 ) : WeatherService {
 
     override suspend fun getWeather(lat: Double, lon: Double): OpenWeatherResponse {
@@ -22,7 +22,7 @@ internal class WeatherServiceMock(
     private val json = Json { ignoreUnknownKeys = true }
 
     private val response
-        get() = platform.loadAsset(MOCK)
+        get() = assetManager.loadAsset(MOCK)
 
     companion object {
         private const val MOCK = "OpenWeather.json"
