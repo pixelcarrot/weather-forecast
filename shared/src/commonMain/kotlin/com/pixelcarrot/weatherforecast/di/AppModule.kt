@@ -8,7 +8,7 @@ import com.pixelcarrot.weatherforecast.repository.WeatherRepository
 import com.pixelcarrot.weatherforecast.service.unsplash.UnsplashService
 import com.pixelcarrot.weatherforecast.service.unsplash.UnsplashServiceImpl
 import com.pixelcarrot.weatherforecast.service.unsplash.UnsplashServiceMock
-import com.pixelcarrot.weatherforecast.service.weather.WeatherMapServiceImpl
+import com.pixelcarrot.weatherforecast.service.weather.WeatherServiceImpl
 import com.pixelcarrot.weatherforecast.service.weather.WeatherService
 import com.pixelcarrot.weatherforecast.service.weather.WeatherServiceMock
 import com.pixelcarrot.weatherforecast.usecase.GetCurrentWeatherUseCase
@@ -33,7 +33,7 @@ class AppModule(context: AppContext) {
         if (Constant.IS_MOCK_ENABLED) {
             WeatherServiceMock(assetManager)
         } else {
-            WeatherMapServiceImpl(client)
+            WeatherServiceImpl(client)
         }
     }
 

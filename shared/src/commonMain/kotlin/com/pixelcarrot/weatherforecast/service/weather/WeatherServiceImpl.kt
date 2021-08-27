@@ -9,14 +9,14 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-internal class WeatherMapServiceImpl(private val client: HttpClient) : WeatherService {
+internal class WeatherServiceImpl(private val client: HttpClient) : WeatherService {
 
     override suspend fun getWeather(lat: Double, lon: Double): OpenWeatherResponse {
         return withContext(Dispatchers.Default) {
             val response: String = client.get {
                 url("https://api.openweathermap.org/data/2.5/weather")
-                parameter("lat", lat.toString())
-                parameter("lon", lon.toString())
+                parameter("lat", lat)
+                parameter("lon", lon)
                 parameter("units", "metric")
                 parameter("APPID", Constant.OPEN_WEATHER_MAP_API_KEY)
             }
