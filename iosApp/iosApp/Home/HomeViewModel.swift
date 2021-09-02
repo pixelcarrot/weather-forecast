@@ -81,7 +81,7 @@ class HomeViewModel: ObservableObject {
         state = .loading
         getWeatherByLocation(lat: lat, lon: lon)
             .flatMap{ weather in
-                self.getImageByKeyword(keyword: "\(weather.condition) weather")
+                self.getImageByKeyword(keyword: weather.condition)
                     .map { image in
                         (weather, image)
                     }
