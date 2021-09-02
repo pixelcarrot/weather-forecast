@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Sunflower Weather</string>
+    <string name="feel_like">Feels like %d°</string>
+    <string name="photo_by">Photo by</string>
+    <string name="on"> on </string>
+    <string name="unsplash">Unsplash</string>
+    <string name="retry">Retry</string>
+</resources>
